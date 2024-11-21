@@ -74,11 +74,54 @@ dados = puxar_dados()
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # funcao que salva todos os dados do dicionario dados dentro do arquivo dados_usuario.json
 def escrever_dados():
-    with open("dados_usuario", "w") as arquivo:
-        json.dump(dados, arquivo)
+    with open("dados_usuario.json", "w") as arquivo:
+        json.dump(dados, arquivo, indent=4)
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 def zerar_dados():
     dados = {}
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 def add_livro():
-    pass
+    # colocando o id altomaricamente
+    if dados['livros'] == []:
+        ident = 0
+    else:
+        ident = dados['livros'].index(dados['livros'][-1]) + 1
+    titulo = input('titulo: ')
+    autor = input('autor: ')
+    dataNascimento = input('data de nascimento: ')
+
+    # adicionando os dados a lista livros e autores
+    dados['livros'].append({
+        "id": ident,
+        "titulo": titulo,
+    })
+    # verificar se o autor ja existe na biblioteca
+    # crio uma lista auxiliar que guarda o nome de todos os autores ja cadastrados na biblioteca
+    # para poder usar como condicao para adicionar o autor a lista autores
+    lista_autores = []
+    for x in dados['autores']:
+        lista_autores.append(x['nome'])
+    if autor in lista_autores:
+        dados['autores'].append({
+            "nome": autor,
+            "dataNascimento": dataNascimento
+        })
+        # salvando no arquivo json
+        escrever_dados()
+    # if dados['autores'] == []:
+    #     lista_autores = []
+    #     for x in dados['autores']:
+    #         lista_autores.append(x['nome'])
+    #     if autor in lista_autores:
+    #         dados['autores'].append({
+    #             "nome": autor,
+    #             "dataNascimento": dataNascimento
+    #         })
+    #         escrever_dados()
+    # else:
+    #     dados['autores'].append({
+    #             "nome": autor,
+    #             "dataNascimento": dataNascimento
+    #         })
+    #     # salvando no arquivo json
+    #     escrever_dados()

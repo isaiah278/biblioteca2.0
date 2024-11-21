@@ -1,6 +1,6 @@
-from funcoes import menu, menus
+from funcoes import menu, menus, add_livro, puxar_dados
 
-
+puxar_dados()
 
 while True:
     opcao1 = menu()
@@ -12,7 +12,7 @@ while True:
         while True:
             opcao2 = menus(opcao1)
             if opcao2 == 1:
-                pass
+                add_livro()
             elif opcao2 == 2:
                 pass
             elif opcao2 == 3:
