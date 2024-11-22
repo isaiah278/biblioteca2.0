@@ -1,6 +1,6 @@
-from funcoes import menu, menus, add_livro, puxar_dados
+from funcoes import menu, menus, escrever_dados, add_livro, del_livro, del_autor, listar_livros, listar_autores, zerar_tudo
 
-puxar_dados()
+
 
 while True:
     opcao1 = menu()
@@ -13,10 +13,12 @@ while True:
             opcao2 = menus(opcao1)
             if opcao2 == 1:
                 add_livro()
+                escrever_dados()
             elif opcao2 == 2:
-                pass
+                del_livro()
+                escrever_dados()
             elif opcao2 == 3:
-                pass
+                listar_livros()
             else:
                 break
     # autores
@@ -26,9 +28,10 @@ while True:
         while True:
             opcao2 = menus(opcao1)
             if opcao2 == 1:
-                pass
+                del_autor()
+                escrever_dados()
             elif opcao2 == 2:
-                pass
+                listar_autores()
             else:
                 break
     # alunos
@@ -60,3 +63,9 @@ while True:
                 break
     elif opcao1 == 0:
         break
+    
+    else:
+        zerar_tudo()
+        escrever_dados()
+  
+        

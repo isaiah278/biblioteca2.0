@@ -1,0 +1,10 @@
+{
+    "livros": [],
+    "autores": [],
+    "alunos": [],
+    "biblioteca": {
+        "livros": [],
+        "autores": [],
+        "emprestimos": []
+    }
+}
