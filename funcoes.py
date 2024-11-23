@@ -1,6 +1,10 @@
+# bibliotecas usadas para salvar os dados do usuario
 import os
 import json
+# biblioteca usada para mostrar as datas de cadastro, atualizacao, emprestimo e devolucao
+from datetime import datetime as data, timedelta as data_mais
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# limpar o terminal
 def limpar_tela():
     return os.system('cls')
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -10,6 +14,7 @@ livros [1]
 autores [2]
 alunos [3]
 empréstimos [4]
+formatar sistema [5]
 sair do sistema [0]
 ''')
     return int(input('escolha: '))
@@ -87,7 +92,21 @@ def add_livro():
         ident = dados['livros'].index(dados['livros'][-1]) + 1
     titulo = input('titulo: ')
     autor = input('autor: ')
-    dataNascimento = input('data de nascimento: ') 
+    limpar_tela()
+    print('data de nascimento do autor no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o dia e dê ENTER')
+    dia = input()
+    limpar_tela()
+    print('data de nascimento do autor no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o mês e dê ENTER')
+    print(f'{dia}/', end='')
+    mes = input()
+    limpar_tela()
+    print('data de nascimento do autor no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o ano e dê ENTER')
+    print(f'{dia}/{mes}/', end='')
+    ano = input()
+    limpar_tela()
+    dataNascimento = f'{dia}/{mes}/{ano}'
+    dataCadastro = data.now().strftime('%d/%m/%Y')
+    dataAtualizacao = dataCadastro
     
     # adicionando os dados digitados nas listas autores e livros e tambem atualizando o dicionario biblioteca
     dados['autores'].append({
@@ -99,6 +118,8 @@ def add_livro():
         "id": ident,
         "titulo": titulo,
         "autor": autor,
+        "dataCadastro": dataCadastro,
+        "dataAtualizacao": dataAtualizacao,
         "disponivel": True
     })                      
     dados['biblioteca']['livros'].append(titulo)
@@ -134,7 +155,7 @@ def del_autor():
         # caso o autor esteja na biblioteca
         if escolha in dados['biblioteca']['autores']:
             # removendo o autor da lista autores e da biblioteca
-            [dados['autores'].remove(x) for x in dados['autores'] if x['nome' == escolha]] 
+            [dados['autores'].remove(x) for x in dados['autores'] if x['nome'] == escolha] 
             dados['biblioteca']['autores'].remove(escolha)
         # caso o autor não esteja na biblioteca
         else:
@@ -170,7 +191,19 @@ def add_aluno():
     else:
         ident = dados['alunos'].index(dados['alunos'][-1]) + 1
     nome = input('nome: ')
-    dataNascimento = input('data de nascimento: ')
+    limpar_tela()
+    print('data de nascimento do aluno no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o dia e dê ENTER')
+    dia = input()
+    limpar_tela()
+    print('data de nascimento do aluno no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o mês e dê ENTER')
+    print(f'{dia}/', end='')
+    mes = input()
+    limpar_tela()
+    print('data de nascimento do aluno no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o ano e dê ENTER')
+    print(f'{dia}/{mes}/', end='')
+    ano = input()
+    dataNascimento = f'{dia}/{mes}/{ano}'
+    limpar_tela()
     email = input('emai-l: ')
     # adicionando os dados do aluno na lista alunos
     dados['alunos'].append({
@@ -234,6 +267,12 @@ def fazer_emprestimo():
                     dados['biblioteca']['emprestimos'].append(escolha)
                     # atualizando o estado de disponivel do livro para False
                     [x.update({'disponivel': False}) for x in dados['livros'] if x['titulo'] == escolha]
+                    # data de devolucao
+                    data_emprestimo = data.now().strftime('%d/%m/%Y')
+                    data_devolucao = (data_mais(days=7)+data.now()).strftime('%d/%m/%Y')
+                    print(f'Livro: "{escolha}" emprestado com sucesso')
+                    print(f'Data de emprestimo: {data_emprestimo}')
+                    print(f'Data de devolução: {data_devolucao}')
                 # se o livro nao estiver disponivel
                 else:
                     print('livro indisponivel')
@@ -248,7 +287,54 @@ def fazer_emprestimo():
         print('Nenhum livro adicionado')      
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 def devolver_livro():
-    pass
+    # verificar se algum livro ja foi adicionado
+    # se algum livro ja foi adicionado
+    if dados['livros'] != []:
+        # verificar se algum empréstimo ja foi feito
+        # se algum emprestimo ja foi feito
+        if dados['biblioteca']['emprestimos'] != []:
+            # verificar se o aluno ja foi cadastrado
+            aluno = input('Aluno(a): ')
+            # se o aluno ja foi cadastrado
+            if aluno in [x['nome'] for x in dados['alunos']]:
+                # verificar se o aluno tem algum empréstimo
+                # se o aluno tiver algum emprestimo
+                if aluno in [x['nome'] for x in dados['alunos'] if x['emprestimos'] != []]:
+                    # mostrando os livros emprestados pro aluno
+                    lista_alunos = []
+                    print(f'Emprestimos de {aluno}')
+                    print('=-'*10)
+                    [[print(y) for y in x['emprestimos']] for x in dados['alunos'] if x['nome'] == aluno]
+                    [[lista_alunos.append(y) for y in x['emprestimos']] for x in dados['alunos'] if x['nome'] == aluno]
+                    print('=-'*10)
+                    # verificar se o livro escolhido esta nos empréstimos do aluno
+                    escolha = input('')
+                    # se o livro escolhido estiver nos emprestimos do aluno
+                    if escolha in lista_alunos:
+                        # mudar a situação de disponível do livro para True
+                        [x.update({'disponivel': True}) for x in dados['livros'] if x['titulo'] == escolha]
+                        # retirar o livro dos empréstimos da biblioteca
+                        dados['biblioteca']['emprestimos'].remove(escolha)
+                        # retirar o livro dos empréstimos do aluno
+                        [x['emprestimos'].remove(escolha) for x in dados['alunos'] if x['nome'] == aluno]
+                        # atualizando a data de atualizacao do livro
+                        data_atualizacao = data.now()
+                        [x.update({'dataAtualizacao': data_atualizacao}) for x in dados['livros'] if x['titulo'] == escolha] 
+                    # se o livro escolhido não estiver nos emprestimos do aluno
+                    else:
+                        print('Este livro nao foi emprestado para o aluno')
+                # se o aluno nao tiver nenhum emprestimo
+                else:
+                    print('O aluno ainda não fez nenhum emprestimo')
+            # se o aluno nao esta cadastrado
+            else:
+                print('O aluno não foi cadastrado')
+        # se nenhum emprestimo foi feito
+        else:
+            print('Nenhum emprestimo foi feito ainda')
+    # se nenhum livro foi adicionado
+    else:
+        print('Nenhum livro foi adicionado')
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 def zerar_tudo():
     dados['livros'] = []

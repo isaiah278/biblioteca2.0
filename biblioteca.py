@@ -1,5 +1,4 @@
-from funcoes import menu, menus, escrever_dados, add_livro, del_livro, del_autor, listar_livros, listar_autores, zerar_tudo, add_aluno, del_aluno, listar_alunos, fazer_emprestimo
-
+from funcoes import menu, menus, escrever_dados, add_livro, del_livro, del_autor, listar_livros, listar_autores, zerar_tudo, add_aluno, del_aluno, listar_alunos, fazer_emprestimo, devolver_livro
 
 while True:
     opcao1 = menu()
@@ -60,13 +59,15 @@ while True:
                 fazer_emprestimo()
                 escrever_dados()
             elif opcao2 == 2:
-                pass
+                devolver_livro()
+                escrever_dados()
             else:
                 break
+    # sair do sistema
     elif opcao1 == 0:
         break
-    
-    else:
+    # formatar o sistema
+    elif opcao1 == 5:
         zerar_tudo()
         escrever_dados()
   
