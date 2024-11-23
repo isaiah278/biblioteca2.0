@@ -83,6 +83,7 @@ def escrever_dados():
     caminho = "dados_usuario.json"
     with open(caminho, "w") as arquivo:
         json.dump(dados, arquivo, indent=4)
+
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 def add_livro():
     # colocando o id altomaricamente
