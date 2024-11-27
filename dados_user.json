@@ -1,0 +1,29 @@
+{
+    "livros": [
+        {
+            "id": 2,
+            "titulo": "o cervo",
+            "autor": "isordes",
+            "dataCadastro": "27/11/2024",
+            "dataAtualizacao": "27/11/2024",
+            "disponivel": true
+        }
+    ],
+    "autores": [
+        {
+            "id": 2,
+            "nome": "isordes",
+            "dataNascimento": "01032006"
+        }
+    ],
+    "alunos": [],
+    "biblioteca": {
+        "livros": [
+            "o cervo"
+        ],
+        "autores": [
+            "isordes"
+        ],
+        "emprestimos": []
+    }
+}

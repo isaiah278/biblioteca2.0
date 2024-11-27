@@ -1,5 +1,5 @@
-from funcoes import menu, menus, escrever_dados, add_livro, del_livro, del_autor, listar_livros, listar_autores, zerar_tudo, add_aluno, del_aluno, listar_alunos, fazer_emprestimo, devolver_livro
-
+from funcoes import limpar_tela, menu, menus, escrever_dados, add_livro, del_livro, del_autor, listar_livros, listar_autores, zerar_tudo, add_aluno, del_aluno, listar_alunos, fazer_emprestimo, devolver_livro
+limpar_tela()
 while True:
     opcao1 = menu()
     # livros
