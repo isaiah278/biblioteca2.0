@@ -60,8 +60,8 @@ def puxar_dados():
     # se o arquivo dados_usuario.json existir ele somente retorna os dados ja existentes no arquivo
     caminho = "dados_usuario.json"
     if os.path.exists(caminho):    
-        with open(caminho, "r") as arquivo2:
-            return json.load(arquivo2)
+        with open(caminho, "r") as arquivo:
+            return json.load(arquivo)
     # se o arquivo não existir ele retorna as listas e o dicionario biblioteca
     else:
         return {
@@ -83,7 +83,6 @@ def escrever_dados():
     caminho = "dados_usuario.json"
     with open(caminho, "w") as arquivo:
         json.dump(dados, arquivo, indent=4)
-
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 def add_livro():
     # colocando o id altomaricamente
@@ -93,21 +92,9 @@ def add_livro():
         ident = dados['livros'].index(dados['livros'][-1]) + 1
     titulo = input('titulo: ')
     autor = input('autor: ')
-    limpar_tela()
-    print('data de nascimento do autor no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o dia e dê ENTER')
-    dia = input()
-    limpar_tela()
-    print('data de nascimento do autor no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o mês e dê ENTER')
-    print(f'{dia}/', end='')
-    mes = input()
-    limpar_tela()
-    print('data de nascimento do autor no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o ano e dê ENTER')
-    print(f'{dia}/{mes}/', end='')
-    ano = input()
-    limpar_tela()
-    dataNascimento = f'{dia}/{mes}/{ano}'
+    dataNascimento = input('Data nascimento: ')
     dataCadastro = data.now().strftime('%d/%m/%Y')
-    dataAtualizacao = dataCadastro
+    dataAtualizacao = data.now().strftime('%d/%m/%Y')
     
     # adicionando os dados digitados nas listas autores e livros e tambem atualizando o dicionario biblioteca
     dados['autores'].append({
@@ -192,19 +179,7 @@ def add_aluno():
     else:
         ident = dados['alunos'].index(dados['alunos'][-1]) + 1
     nome = input('nome: ')
-    limpar_tela()
-    print('data de nascimento do aluno no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o dia e dê ENTER')
-    dia = input()
-    limpar_tela()
-    print('data de nascimento do aluno no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o mês e dê ENTER')
-    print(f'{dia}/', end='')
-    mes = input()
-    limpar_tela()
-    print('data de nascimento do aluno no formato dia, mes e ano respectivamente: 00/00/0000 \nDigite o ano e dê ENTER')
-    print(f'{dia}/{mes}/', end='')
-    ano = input()
-    dataNascimento = f'{dia}/{mes}/{ano}'
-    limpar_tela()
+    dataNascimento = input('Data nascimento: ')
     email = input('emai-l: ')
     # adicionando os dados do aluno na lista alunos
     dados['alunos'].append({
@@ -319,7 +294,7 @@ def devolver_livro():
                         # retirar o livro dos empréstimos do aluno
                         [x['emprestimos'].remove(escolha) for x in dados['alunos'] if x['nome'] == aluno]
                         # atualizando a data de atualizacao do livro
-                        data_atualizacao = data.now()
+                        data_atualizacao = data.now().strftime('%d/%m/%Y')
                         [x.update({'dataAtualizacao': data_atualizacao}) for x in dados['livros'] if x['titulo'] == escolha] 
                     # se o livro escolhido não estiver nos emprestimos do aluno
                     else:
